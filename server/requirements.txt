@@ -4,3 +4,4 @@ numpy
 pandas
 uvicorn
 fastapi
+dill
