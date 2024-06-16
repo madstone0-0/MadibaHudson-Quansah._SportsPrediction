@@ -6,4 +6,4 @@ uvicorn
 fastapi
 matplotlib
 dill
-xboost
+xgboost
