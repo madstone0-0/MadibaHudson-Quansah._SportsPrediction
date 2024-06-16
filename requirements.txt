@@ -4,4 +4,6 @@ numpy
 pandas
 uvicorn
 fastapi
+matplotlib
 dill
+xboost
