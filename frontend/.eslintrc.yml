@@ -1,0 +1,22 @@
+env:
+  browser: false
+  es6: true
+  node: true
+extends: "eslint:recommended"
+parserOptions:
+  ecmaVersion: 2018
+  sourceType: module
+rules:
+  indent:
+    - warn
+    - 4
+  linebreak-style:
+    - warn
+    - unix
+  quotes:
+    - error
+    - double
+  semi:
+    - error
+    - always
+  no-unused-vars: 0

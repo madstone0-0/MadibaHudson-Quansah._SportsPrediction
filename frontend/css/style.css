@@ -1,0 +1,111 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: all 0.5s ease; /* Add a global transition for all properties */
+}
+
+body {
+    font-family: "Orbitron", sans-serif;
+    background-color: #e4e4e4; /* Light grey background, adjust as needed */
+    width: 100%;
+    overflow-x: hidden;
+    height: 95vh;
+    display: flex;
+    justify-content: center;
+}
+
+#form {
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+}
+
+.fields {
+    display: flex;
+    flex-direction: row;
+}
+
+.performance-metrics {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 50%;
+}
+
+.bottom-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.bottom-div-metrics {
+    width: 45%;
+}
+
+.bottom-div > .bottom-div-metrics > .field {
+    width: 100%;
+}
+
+.heading {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.performance-metrics > .field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.5rem;
+    width: 30%;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.5rem;
+}
+
+.field > label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+}
+
+.field > input {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #007bff; /* Blue border, adjust as needed */
+}
+
+.predict-button {
+    font-family: "Orbitron", sans-serif;
+    font-size: 1.1rem;
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #007bff; /* Blue button, adjust as needed */
+    border-radius: 1rem;
+    border: none;
+}
+
+.predict-button:hover {
+    background-color: #0056b3; /* Darker blue on hover, adjust as needed */
+}
+
+#result-div {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+#result {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}

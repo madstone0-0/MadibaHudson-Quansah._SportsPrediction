@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Fifa Overall Predictor</title>
+        <link href="./css/style.css" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap"
+            rel="stylesheet"
+        />
+
+        <script defer src="./js/main.js"></script>
+    </head>
+    <body>
+        <form id="form">
+            <h1 class="heading">Fifa Overall Predictor</h1>
+            <div class="fields">
+                <div class="metrics">
+                    <div class="field">
+                        <label for="movement_reactions"
+                            >Movement Reactions</label
+                        >
+                        <input type="number" id="movement_reactions" />
+                    </div>
+                    <div class="field">
+                        <label for="mentality_composure"
+                            >Mentality Composure</label
+                        >
+                        <input type="number" id="mentality_composure" />
+                    </div>
+                    <div class="field">
+                        <label for="wage_eur">Wage (EUR)</label>
+                        <input type="number" id="wage_eur" />
+                    </div>
+                    <div class="field">
+                        <label for="release_clause_eur"
+                            >Release Clause (EUR)</label
+                        >
+                        <input type="number" id="release_clause_eur" />
+                    </div>
+                    <div class="bottom-div">
+                        <div class="bottom-div-metrics">
+                            <div class="field">
+                                <label for="value_eur">Value (EUR)</label>
+                                <input type="number" id="value_eur" />
+                            </div>
+                            <div class="field">
+                                <label for="age">Age</label>
+                                <input type="number" id="age" />
+                            </div>
+                        </div>
+                        <div class="performance-metrics">
+                            <div class="field">
+                                <label for="physic">Physic</label>
+                                <input type="number" id="physic" />
+                            </div>
+                            <div class="field">
+                                <label for="pace">Pace</label>
+                                <input type="number" id="pace" />
+                            </div>
+                            <div class="field">
+                                <label for="shooting">Shooting</label>
+                                <input type="number" id="shooting" />
+                            </div>
+                            <div class="field">
+                                <label for="passing">Passing</label>
+                                <input type="number" id="passing" />
+                            </div>
+                            <div class="field">
+                                <label for="dribbling">Dribbling</label>
+                                <input type="number" id="dribbling" />
+                            </div>
+                            <div class="field">
+                                <label for="defending">Defending</label>
+                                <input type="number" id="defending" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="predict-button" type="submit">Predict</button>
+            <div id="result-div">
+                <h2 id="result"></h2>
+            </div>
+        </form>
+    </body>
+</html>
