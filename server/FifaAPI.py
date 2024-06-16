@@ -91,4 +91,5 @@ def predict(dataPoint: DataPoint):
 
 if __name__ == "__main__":
     host = "127.0.0.1" if MODE == "dev" else "0.0.0.0"
+    port = environ.get("PORT", 8000)
     uvicorn.run(app, host=host, port=8000)
