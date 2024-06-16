@@ -21,9 +21,6 @@ __main__.pandas = pd
 MODE = environ.get("MODE", "dev")
 logger = logging.getLogger("uvicorn.error")
 
-data = pd.read_csv("./datasets/players_22.csv", low_memory=False)
-y = data[["overall"]]
-
 modelPath = Path("./server/Fifa_Model.pkl")
 
 
@@ -40,8 +37,8 @@ def modelMetrics(model, preds, actuals) -> str:
     rmse = r5(root_mean_squared_error(preds, actuals))
     mae = r5(mean_absolute_error(preds, actuals))
     r2s = r5(r2_score(preds, actuals))
-    score = model.score(data, actuals)
-    return f"RMSE: {rmse} MAE: {mae} R2S: {r2s} Accuracy: {score:0.2%}"
+    # score = model.score(data, actuals)
+    # return f"RMSE: {rmse} MAE: {mae} R2S: {r2s} Accuracy: {score:0.2%}"
 
 
 class DataPoint(BaseModel):
@@ -73,9 +70,9 @@ app.add_middleware(
 
 @app.get("/health")
 def health(status_code=status.HTTP_200_OK):
-    preds = model.predict(data)
-    res = modelMetrics(model, preds, y)
-    logger.info(f"Health: {res}")
+    # preds = model.predict(data)
+    # res = modelMetrics(model, preds, y)
+    # logger.info(f"Health: {res}")
     return {"data": "Up"}
 
 
