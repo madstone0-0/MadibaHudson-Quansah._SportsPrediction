@@ -80,6 +80,7 @@ def health(status_code=status.HTTP_200_OK):
 def predict(dataPoint: DataPoint):
     data = dataPoint.model_dump()
     data = pd.DataFrame(data, index=[0])
+    logger.info(f"Data: {data}")
     prediction = model.predict(data)
     logger.info(f"Prediction: {prediction[0]}")
     predictionFmted = np.floor(prediction[0])
