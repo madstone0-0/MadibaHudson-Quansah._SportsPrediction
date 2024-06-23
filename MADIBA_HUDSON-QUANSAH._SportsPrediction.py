@@ -4,8 +4,9 @@
 # In[1]:
 
 
+import sys
 
-get_ipython().system("{sys.executable} -m pip install xgboost dill")
+get_ipython().system('{sys.executable} -m pip install xgboost dill')
 
 
 # In[2]:
@@ -14,8 +15,9 @@ get_ipython().system("{sys.executable} -m pip install xgboost dill")
 import numpy as np
 import pandas as pd
 import pandas
+import scipy as sp
 from sklearn.pipeline import Pipeline, make_pipeline, FunctionTransformer
-from sklearn.preprocessing import OneHotEncoder, MinMaxScaler
+from sklearn.preprocessing import StandardScaler, OneHotEncoder, MinMaxScaler
 from sklearn.compose import ColumnTransformer, make_column_selector
 from sklearn.model_selection import RandomizedSearchCV, train_test_split
 from scipy.stats import randint
@@ -66,11 +68,9 @@ fifa22.head()
 
 
 # Make composite features for increased correlation
-trainFifa["experience"] = (
-    datetime.now().year - pd.to_datetime(trainFifa["club_joined_date"]).dt.year
-)
+trainFifa["experience"] = datetime.now().year - pd.to_datetime(trainFifa["club_joined_date"]).dt.year
 trainFifa["bmi"] = trainFifa["weight_kg"] / (trainFifa["height_cm"] / 100) ** 2
-perfMetrics = ["pace", "shooting", "passing", "dribbling", "defending", "physic"]
+perfMetrics = ['pace', 'shooting', 'passing', 'dribbling', 'defending', 'physic']
 trainFifa["avg_perf"] = trainFifa[perfMetrics].mean(axis=1)
 trainFifa.head()
 
@@ -187,10 +187,7 @@ def cleanData(data: pd.DataFrame) -> pd.DataFrame:
     remainder = remainder.add_prefix("remainder__")
 
     quantImpute = SimpleImputer(strategy="median")
-    avgFunc = FunctionTransformer(
-        lambda X: pandas.DataFrame(X.mean(axis=1)),
-        feature_names_out=lambda x, y: ["avg"],
-    )
+    avgFunc = FunctionTransformer(lambda X: pandas.DataFrame(X.mean(axis=1)), feature_names_out=lambda x, y: ["avg"])
     dimFunc = FunctionTransformer(np.log, feature_names_out="one-to-one")
     scaler = MinMaxScaler()
 
@@ -212,9 +209,7 @@ def cleanData(data: pd.DataFrame) -> pd.DataFrame:
 
     combined = pd.concat([money, perfs, remainder], axis=1)
     combined = scaler.fit_transform(combined)
-    combined = pd.DataFrame(
-        combined, columns=scaler.get_feature_names_out(), index=data.index
-    )
+    combined = pd.DataFrame(combined, columns=scaler.get_feature_names_out(), index=data.index)
     return combined
 
 
@@ -223,10 +218,7 @@ def cleanData(data: pd.DataFrame) -> pd.DataFrame:
 
 avgPipe = make_pipeline(
     SimpleImputer(strategy="median"),
-    FunctionTransformer(
-        lambda X: pandas.DataFrame(X.mean(axis=1)),
-        feature_names_out=lambda x, y: ["avg"],
-    ),
+    FunctionTransformer(lambda X: pandas.DataFrame(X.mean(axis=1)), feature_names_out=lambda x, y: ["avg"]),
 )
 
 quantPipe = Pipeline(
@@ -540,13 +532,11 @@ y_test[:5]
 
 import scipy
 
-
 class ConfidenceLevel:
-    def __init__(self, preds, std, confidenceLevel=1.96) -> None:
+    def __init__(self, preds, std, confidenceLevel = 1.96) -> None:
         self.preds = preds
         self.cl = confidenceLevel
         self.std = std
-
     def ci(self, pred) -> str:
         interval = self.cl * self.std
         confPercentage = scipy.stats.norm.cdf(self.cl) - scipy.stats.norm.cdf(-self.cl)
@@ -556,9 +546,7 @@ class ConfidenceLevel:
 # In[51]:
 
 
-treePreds = np.array(
-    [tree.predict(X_train_train) for tree in finalModel["randSkog"].estimators_]
-)
+treePreds = np.array([tree.predict(X_train_train) for tree in finalModel["randSkog"].estimators_])
 std = np.std(treePreds, axis=0)
 conf = ConfidenceLevel(treePreds, std)
 conf.ci(np.round(finalPreds[0]))
@@ -566,10 +554,38 @@ conf.ci(np.round(finalPreds[0]))
 
 # # Export model
 
-# In[52]:
+# In[59]:
+
+
+from pathlib import Path
+
+def split(src, dest, wsize):
+    src = Path(src)
+    dest = Path(dest)
+    dest.mkdir(exist_ok=True)
+
+    partNum = 0
+    with open(src, "rb") as f:
+        while True:
+            chunk = f.read(wsize)
+
+            if not chunk:
+                break
+
+            partNum += 1
+            filename = f"{src.stem}-{partNum}.pkl"
+            with open(dest / filename, "wb") as p:
+                p.write(chunk)
+    src.unlink()
+
+
+# In[60]:
 
 
 from dill import dump
 
 dump(finalModel, open("./server/Fifa_Model.pkl", mode="wb"))
 dump(conf, open("./server/ci.pkl", mode="wb"))
+
+split("./server/Fifa_Model.pkl", "./server/", int(5E7))
+
