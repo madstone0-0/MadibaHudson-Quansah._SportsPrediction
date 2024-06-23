@@ -5,7 +5,7 @@ import __main__
 import numpy as np
 import pandas as pd
 import streamlit as st
-from dill import load
+from dill import load, loads
 import scipy
 
 # Fix pandas not found https://stackoverflow.com/a/65318623
@@ -23,7 +23,23 @@ def loadPkl(path: Path):
     return obj
 
 
-model = loadPkl(modelPath)
+def loadParts(prefix, src):
+    src = Path(src)
+    combined = b""
+    parts = []
+    for file in src.glob("*.pkl"):
+        if file.stem.startswith(prefix):
+            parts.append(file)
+    parts.sort(key=lambda part: int(part.stem.split("-")[-1]))
+
+    for part in parts:
+        with open(part, "rb") as f:
+            combined += f.read()
+
+    return loads(combined)
+
+
+model = loadParts("Fifa_Model-", "./server/")
 ci = loadPkl(ciPath)
 statParams = {"min_value": 0, "max_value": 100, "value": 0}
 currParams = {"min_value": 0, "value": 0}
